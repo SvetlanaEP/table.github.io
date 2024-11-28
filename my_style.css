@@ -1,0 +1,111 @@
+#nav_tooltip{
+    position: absolute;
+    color: #797979;
+    background: #CFE3E8;
+    padding: 5px 10px;
+    text-transform: uppercase;
+    font-size: 16px;
+    z-index: 99;
+    /* transform: translateX(-50%); */
+}
+
+#new_tooltip > span{
+    position: relative;
+    display: block;
+}
+
+#nav_tooltip > span::before{
+    --w: 10px;
+    display: block;
+    content: '';
+    top: calc(-1 * var(--w));
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    background: #CFE3E8;
+    width: var(--w);
+    height: var(--w);
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+.tab > p {
+    max-width: 100%;
+    /* word-break: break-all; */
+}
+
+.third-panel.journals.panels__panel, .panels__panel.second-panel,.navbar-top-panel {
+    /* padding-right: 33px; */
+    padding-inline: 0;
+    padding-right: 20px;
+}
+
+.navbar-top-panel{
+    box-sizing: border-box;
+    padding-right: 2.2vw !important;
+}
+
+.navbar-top__link:hover{
+    color: red;
+}
+
+
+.navbar-top__link > img:first-of-type{
+    display: inline;
+}
+
+.navbar-top__link > img:last-of-type{
+    display: none;
+}
+
+.navbar-top__link:hover > img:first-of-type{
+    display: none;
+}
+
+.navbar-top__link:hover > img:last-of-type{
+    display: inline;
+}
+
+.panels__panel.second-panel{
+    padding-right: 0;
+}
+
+.brad-crumb__item__text_{
+    display: none;
+    width: 100%;
+    justify-content: flex-start;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 20px 20px 0 20px;
+    font-weight: bolder !important;
+}
+
+.brad-crumb__item__text{
+    font-weight: bolder !important;
+}
+
+@media (width >= 641px) and (width <= 880px){
+    .brad-crumb__item__text_{
+        display: flex;
+    }
+}
+
+#navbar > div.third-panel.journals.panels__panel{
+    padding-left: 20px;
+    padding-right: 0;
+}
+
+@media (width < 641px){
+    .navbar-top-panel{
+        width: 100%;
+        justify-content: center !important;
+    }
+}
+
+.two-lines p {
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+

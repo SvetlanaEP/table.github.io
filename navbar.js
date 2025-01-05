@@ -91,7 +91,7 @@ class Navbar extends HTMLElement {
                         cursor: pointer;
                         display:flex;
                         align-items: center;
-                        font-size: 18px;
+                       /* font-size: 18px;*/
                     }
                 }
                 navbar-elem{

@@ -111,9 +111,9 @@ body {
 }
 
 .main-container {
-    padding-bottom: 50px;
+    padding-bottom: 12vh;
     overflow-y: visible;
-    min-height: 100svh;
+    min-height: 100vh;
 }
 
 .will-removed {

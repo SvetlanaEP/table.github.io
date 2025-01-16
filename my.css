@@ -1,0 +1,46 @@
+body {
+  --index: calc(1vh + 1vw);
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  padding: 0px calc(var(--index) * 1.5);
+}
+
+.big-title {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.big-title-pc {
+  text-align: left;
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.brad-crumb__item__text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.brad-crumb__item__text_container {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-left: 15px;
+  padding-right: 30px;
+}
+
+@media (max-width: 880px) {
+  .big-title-pc {
+    display: none;
+  }
+}
+@media (min-width: 880px) {
+  .big-title {
+    display: none;
+  }
+}/*# sourceMappingURL=my.css.map */

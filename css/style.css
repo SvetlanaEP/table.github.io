@@ -1,7 +1,7 @@
 /*общие */
 .navbar-top__link {
     width: 96vw;
-    margin-left: 90vw;
+    margin-left: 94%;
 }
 .panels__panel.second-panel {
     width: 98vw;
@@ -270,7 +270,7 @@ body.modal-open {
     background-color: white;
     border: 0.2vh solid #CBCBCB;
     text-align: center;
-    color: #9C9C9C;
+    color: #999;
     text-transform: uppercase;
     width: 100%;
 }
@@ -294,6 +294,10 @@ body.modal-open {
 .soft-bar__button:not(.soft-bar__button--search) {
     height: 7vh;
 
+}
+
+.soft-bar__button:not(.custom-select) path {
+    fill: #9c9c9c;
 }
 
 .soft-bar__button--search {
@@ -366,10 +370,6 @@ body:not(.fixed-mobile-min) .soft-bar__container.data-item__item--search-mobile 
         height: 7vh;
     }
 
-
-.soft-bar__button path {
-    fill: #9C9C9C;
-}
 
 .soft-bar__button svg:not(.select-icons__del) {
     width: 3vh;
@@ -2009,8 +2009,8 @@ flex-direction: column;
 }
 
 .duplicate-message svg {
-    width: 5vh;
-    height: 5vh;
+    width: 2vh;
+    height: 2vh;
 }
 
 .duplicate-message__text {
@@ -2020,7 +2020,7 @@ flex-direction: column;
 }
 
 .duplicate-textarea-style {
-    border: 0.2vh solid red;
+    border: 0.2vh solid red !important;
 }
 
 
@@ -2080,7 +2080,6 @@ flex-direction: column;
 
 .custom-select-edit {
     position: relative;
-    margin-top: 1.5vh;
 }
 
 
@@ -2113,7 +2112,7 @@ flex-direction: column;
     position: absolute;
     top: 0.5vh;
     left: 1.5vh;
-   /* font-size: 12px;*/
+    font-size: calc(0.010171875* 100vw);
     color: #aaa; /* Цвет placeholder */
 }
 

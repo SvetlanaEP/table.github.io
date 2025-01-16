@@ -13,7 +13,7 @@ let dataList = [
     },
     {
         id: 3,
-        abbreviation: 'АНОО',
+        abbreviation: 'АНООf',
         name: 'АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОБЩЕОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ',
         isEducational: true
     },
@@ -1107,7 +1107,7 @@ function showSuggestions(columnIndex, inputIndex) {
         } else {
             closeSuggestions()
         }
-        selectOptionLi.style.fontSize = '12px';
+        selectOptionLi.style.fontSize = 'calc(0.0140625* 100vw)';
         selectOptionLi.style.display = 'block';
         selectOptionLi.style.visibility = 'hidden';
         suggestionsList.appendChild(selectOptionLi);
@@ -1135,7 +1135,7 @@ function showSuggestions(columnIndex, inputIndex) {
                             closeSuggestions();
 
                             // Вызов функций для изменения высоты элементов
-                            autoResizeTextarea(input, input.scrollHeight);
+                            autoResizeTextarea(input, (input.scrollHeight/window.innerHeight)*100);
                             adjustTableRowAndLabelHeight(input);
                         };
                     }
@@ -1151,7 +1151,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
-        parentCell.querySelector('label').style.border = '2px solid #00B0D9';
+        parentCell.querySelector('label').style.border = '0.2vh solid #00B0D9';
 
         // Добавляем обработчик клика на документ
         document.addEventListener('click', handleOutsideClick);
@@ -1162,12 +1162,15 @@ function showSuggestions(columnIndex, inputIndex) {
 
     // Функция для прокрутки страницы вверх, если подсказки не умещаются
     function adjustScrollForSuggestions() {
+
         const suggestionsRect = suggestionsList.getBoundingClientRect();
         const inputRect = input.getBoundingClientRect();
         const spaceBelowInput = window.innerHeight - inputRect.bottom;
 
         // Если подсказки не помещаются полностью в видимую часть
         if (suggestionsRect.height > spaceBelowInput) {
+            document.querySelector('.body-container').style.overflowY = 'none';
+
             // Рассчитываем, сколько нужно прокрутить, чтобы верхняя часть инпута была видна в верхней части окна
             const scrollAmount = inputRect.top - 10; // Немного отступаем от верхней части окна (10px)
 
@@ -1176,6 +1179,7 @@ function showSuggestions(columnIndex, inputIndex) {
                 top: scrollAmount, // Прокрутить на это количество пикселей
                 behavior: 'smooth' // Плавная прокрутка
             });
+            document.querySelector('.body-container').style.overflowY  = 'auto';
         }
     }
 
@@ -1242,7 +1246,7 @@ console.log(tableClearIcon[i].closest('.popup-form__input-wrapper').querySelecto
         tableClearIcon[i].style.display = 'none';
         tableSearchIcon[i].style.display = 'block'
         tableInput[i].classList.add('search-input--focus')
-        tableInput[i].closest('label').style.border = '2px solid #00B0D9';
+        tableInput[i].closest('label').style.border = '0.2vh solid #00B0D9';
         tableInput[i].focus();
         document.querySelectorAll('.suggestions-list')[i].style.display = 'none';
 
@@ -1428,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tableData.addEventListener('click', function (evt) {
         const deleteButton = evt.target.closest('.data-item__button--del')
         const editButton = evt.target.closest('.data-item__button--edit')
-console.log(deleteButton)
+
         if (editButton) {
             currentRow = editButton.closest('tr');
             idCurrentRow = parseInt(currentRow.dataset.id, 10);
@@ -1517,10 +1521,9 @@ let duplicate;
     function checkDuplicateAndShowPopup(form) {
         const fullName = form.querySelector('.input-item--full').value.trim();
         const shortName = form.querySelector('.input-item--short').value.trim();
-        const selectValue = document.querySelector('.custom-select__trigger span').textContent;
-        const optionEducational = document.querySelector('.custom-select__options [data-value="Учебное"]');
+        const selectValue = form.querySelector('.custom-select__trigger span').textContent;
 
-        const isEducational = (selectValue === optionEducational.textContent);
+        const isEducational = (selectValue === "Учебное заведение");
 
         duplicate = dataList.find(row => {
             return row.name.toLowerCase() === fullName.toLowerCase() &&
@@ -1532,13 +1535,19 @@ let duplicate;
         if (duplicate) {
             // Показываем сообщение и ссылку
             const duplicateMessage = form.querySelector('.duplicate-message');
-            const textareaDuplicate = form.querySelector('.input-item--full');
+            const textareaDuplicate = form.querySelectorAll('.popup-form__input');
+            const selectDuplicate = form.querySelector('.custom-select-edit');
             const duplicateIdElement = form.querySelector('.duplicate-id');
 
             duplicateMessage.style.display = 'block';
-            textareaDuplicate.classList.add('duplicate-textarea-style');
 
-            // Записываем id найденного дубликата в элемент с классом .duplicate-id
+            textareaDuplicate.forEach((textarea) => {
+            textarea.classList.add('duplicate-textarea-style')
+            });
+
+            selectDuplicate.classList.add('duplicate-textarea-style');
+
+            // Записываем id найденного дубликата в элемент с классом duplicate-id
             duplicateIdElement.textContent = duplicate.id;
 
             // Обработчик клика для открытия попапа редактирования по дубликату
@@ -1662,10 +1671,15 @@ let duplicate;
 
     function hideDuplicateMessage(form) {
         const duplicateMessage = form.querySelector('.duplicate-message');
-        const textareaDuplicate =form.querySelector('.input-item--full');
+        const textareaDuplicate = form.querySelectorAll('.popup-form__input');
+        const selectDuplicate = form.querySelector('.custom-select-edit');
 
         duplicateMessage.style.display = 'none';
-        textareaDuplicate.classList.remove('duplicate-textarea-style')
+        textareaDuplicate.forEach((textarea) => {
+            textarea.classList.remove('duplicate-textarea-style')
+        });
+
+        selectDuplicate.classList.remove('duplicate-textarea-style');
     }
 
     // Обработчик события на изменение ввода в поле "Полное название"
@@ -1703,11 +1717,7 @@ let duplicate;
 
 // Функция для преобразования первой буквы в заглавную
     function capitalizeFirstLetter(text) {
-        return text
-            .toLowerCase()
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(' ');
+        return text.charAt(0).toUpperCase() + text.slice(1);
     }
 
     // Экспорт
@@ -1785,29 +1795,6 @@ let duplicate;
     });
 
 
-  /*  // Функция для создания и скачивания файла
-    function downloadFile(filename, content) {
-        const blob = new Blob([content], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        const link = document.createElement('a');
-
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-
-        // Автоматически кликаем на ссылку для открытия диалога сохранения
-        link.click();
-
-        // Освобождаем память
-        URL.revokeObjectURL(link.href);
-    }*/
-
- /*   // Обработчик для кнопки выгрузки файла
-    downloadButton.addEventListener('click', function () {
-        const filename = filenameInput.value;
-        const fileContent = "Пример данных для файла"; // Здесь должен быть контент файла, сгенерированный на основе данных
-
-        downloadFile(filename, fileContent)
-        closeExport(); // Закрываем попап после выгрузки
-    });*/
 
     // Функция для создания и скачивания CSV-файла
     function downloadXLS(filename, tableSelector) {
@@ -1882,7 +1869,8 @@ let duplicate;
 const textareaAll = document.querySelectorAll('.popup-form__input:not(.custom-file-upload)');
 textareaAll.forEach(textarea => {
     // Сохранение начальной (минимальной) высоты при загрузке страницы
-    const initialHeight = textarea.scrollHeight;
+    const initialHeight = (textarea.scrollHeight / window.innerHeight)*100;
+
 
     const textareaDel = textarea.closest('label').querySelector('.clear-icon__del')
     autoResizeTextarea(textarea, initialHeight)
@@ -1890,7 +1878,7 @@ textareaAll.forEach(textarea => {
     textareaDel.addEventListener('click', () => {
         textarea.ariaValueMax = ''
         textarea.focus()
-        textarea.style.height = `${initialHeight}px`;
+        textarea.style.height = `${initialHeight}vh`;
 
         if (textareaDel.closest('section').classList.contains('popup-form--data')) {
             textareaDel.closest('section').querySelector('.popup-form__save-button').disabled = true;
@@ -1914,7 +1902,8 @@ const textareaSearchAll = document.querySelectorAll('.search-input');
 
 textareaSearchAll.forEach(textareaSearch => {
     // Сохраняем начальную (минимальную) высоту при загрузке страницы
-    const initialHeight = textareaSearch.scrollHeight;
+    const initialHeight = (textareaSearch.scrollHeight / window.innerHeight)*100;
+
 
     const textareaSearchDel = textareaSearch.closest('label').querySelector('.search-icons__del');
 
@@ -1923,7 +1912,7 @@ textareaSearchAll.forEach(textareaSearch => {
 
     textareaSearchDel.addEventListener('click', () => {
         textareaSearch.value = '';
-        textareaSearch.style.height = `${initialHeight}px`;
+        textareaSearch.style.height = `${initialHeight}vh`;
         adjustTableRowAndLabelHeight(textareaSearch);
 
         // Очищаем значения всех элементов с иконкой удаления
@@ -1948,12 +1937,12 @@ textareaSearchAll.forEach(textareaSearch => {
 // Функция для автоматического изменения высоты textarea
 function autoResizeTextarea(item, initialHeight) {
     // Сбрасываем высоту перед расчетом новой высоты
-    item.style.height = `${initialHeight}px`;
+    item.style.height = `${initialHeight}vh`;
 
     if (item.value.trim() === '') {
-        item.style.height = `${initialHeight}px`;
+        item.style.height = `${initialHeight}vh`;
     } else {
-        item.style.height = `${item.scrollHeight}px`;
+        item.style.height = `${(item.scrollHeight/window.innerHeight)*100}vh`;
     }
 }
 
@@ -1962,7 +1951,9 @@ function adjustTableRowAndLabelHeight(textarea) {
     const row = textarea.closest('tr');
     const label = textarea.closest('label');
 
-    const newHeight = `${textarea.scrollHeight}px`;
+    const newHeight = `${(textarea.scrollHeight/window.innerHeight)*100}vh`;
+
+    console.log(newHeight)
 
     // Изменяем высоту строки таблицы
 

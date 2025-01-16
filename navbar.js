@@ -1,65 +1,72 @@
-
-let page2 = 'сокращенные юридические формы'
-let page = 'сокращенные юридические формы'
-
-const THRID_PANEL_TABS = [
-  ["Объявления", "", "объявления", "id1"],
-  ["Вакансии", "", "вакансии", "id2"],
-  ["Поиск", "", "поиск", "id3"],
-  ["Соискатели", "", "соискатели", "id4"],
-  ["Отклики", "", "отклики", "id5"],
-  ["ФИО", "", "фио", "id6"],
-  ["Адреса", "", "адреса", "id7"],
-  ["Компании", "", "компании", "id8"],
-  ["Учебные заведения", "", "учебные заведения", "id9"],
-  ["Вакансии объединённые", "", "вакансии объединённые", "id10"],
-  ["Сокращённые юридические формы", "", "сокращенные юридические формы", "id19", true],
-  ["Альтернативные учебные⠀заведения", "", "Альтернативные учебные заведения", "id11"],
-  ["Филиалы учебных заведений", "", "филиалы", "id12"],
-  // ["Квалификации", "", "квалификации"], // Этот элемент закомментирован
-  ["Квалификации Специальности", "", "Квалификации Специальности", "id13"],
-  ["Телефонные коды", "", "телефонные коды", "id14"],
-  ["Администраторы", "", "администраторы", "id15"],
-  ["email рассылка", "", "email рассылка", "id16"],
-  ["Как было как надо", "", "КАК БЫЛО КАК НАДО", "id17"],
-  ["Префиксы счетов", "", "префиксы счетов", "id18"],
-
-  ["Банки", "", "банки", "id20"],
-  ["Рубрикатор", "", "рубрикатор", "id21"],
-];
-
-
 class Navbar extends HTMLElement {
   connectedCallback() {
     this.render();
     this.setup();
   }
 
+  THRID_PANEL_TABS = [
+    ["объявления", ""],
+    ["вакансии", ""],
+    ["ПОИСК", ""],
+    ["соискатели", ""],
+    ["отклики", ""],
+    ["фио", ""],
+    ["Адреса", ""],
+    ["Компании", ""],
+    ["Учебные заведения", ""],
+    ["вакансии объединённые", ""],
+    ["Сокращённые юридические формы", ""],
+    ["Альтернативные учебные заведения", ""],
+    ["Филиалы учебных", ""],
+    // ["Квалификации", ""],
+    ["Квалификации Специальности", ""],
+    ["Телефонные коды", ""],
+    ["Администраторы", ""],
+    ["email рассылка", ""],
+    ["КАК БЫЛО КАК НАДО", ""],
+    ["ПРЕФИКСЫ СЧЕТОВ", ""],
+    ["БАНКИ", ""],
+    ["РУБРИКАТОР", ""],
 
-
-
-
-
-
+  ];
   THIRD_PANEL_TAB_TEMPLATE = (
     tabName,
     icon,
-    content,
-    { classes = "", id = "", tabNameClasses = "" } = {}
+    { classes, id, tabNameClasses } = {
+      classes: "",
+      id: "",
+      tabNameClasses: "",
+    }
   ) => {
     return /*html*/ `
-        <div class="third-panel__tab tab${id}" ${id ? `id="${id.trim()}"` : ""}>
-            ${icon
-        ? `<span class="third-panel__tab-icon icon ads-icon in-panel ${classes}">${icon}</span>`
-        : ""
-      }
+        <div class="third-panel__tab" ${id ? `id=${id.trim()}` : ""}>
+            ${
+              icon
+                ? `<span class="third-panel__tab-icon icon ads-icon in-panel ${classes}">${icon}</span>`
+                : ""
+            }
             <p class="third-panel__tab-text ${tabNameClasses}">${tabName}</p>
         </div>
     `;
   };
 
-
   render() {
+    const win_scale = window.devicePixelRatio;
+
+    let font_size = 18;
+
+    if(win_scale === 1 && window.innerWidth >= 1536 - 3){
+      font_size = 21.6;
+    }
+
+    if(win_scale > 1 && window.innerWidth >= 1536 - 3){
+      font_size = 21.6;
+    }
+
+    // window.outerWidth * win_scale = 1920
+
+    // outerWidth >= 1920 / win_scale
+
     const STYLE = /*html*/ `
             <style>
                 .no-white{
@@ -84,6 +91,7 @@ class Navbar extends HTMLElement {
                         cursor: pointer;
                         display:flex;
                         align-items: center;
+                       /* font-size: 18px;*/
                     }
                 }
                 navbar-elem{
@@ -136,8 +144,8 @@ class Navbar extends HTMLElement {
                 }
                 
                 .third-panel__tab {
-                    padding-left: 15px;
-                    padding-right: 15px;
+                    padding-left: 4px;
+                    padding-right: 4px;
                     box-sizing: border-box;
                     font-weight: 100;
                     color: white;
@@ -169,6 +177,7 @@ class Navbar extends HTMLElement {
                     text-transform: uppercase;
                     text-align: center;
                     width: 100%;
+                    max-width: 100%;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: wrap;
@@ -195,7 +204,7 @@ class Navbar extends HTMLElement {
                     position: absolute;
                 }
                 @media (width <= 880px) {
-                    p.third-panel__tab-text{
+                    p.third-panel__tab-text, #nav_tooltip{
                         font-size: 18px;
                     }
                     div#navbar {
@@ -283,35 +292,112 @@ class Navbar extends HTMLElement {
                         background-color: white;
                     }
                 }
-                @media (width <= 1560px) {
+                @media (width <= ${1560 / win_scale}px) {
                     .third-panel__tab {
                         flex: 1;
                         text-align: center;
                     }
                 }
                 @media (width <= 1250px) {
-                    .third-panel__tab-text {
+                    .third-panel__tab-text, #nav_tooltip, .navbar-top-panel {
                         font-size: 18px;
                     }
                 }
                 @media (width <= 1150px) {
-                    .second-panel__tab {
+                    .second-panel__tab, .navbar-top-panel,body > navbar-elem > div.navbar-top-panel > a {
                         font-size: 16px;
                     }
-                    .third-panel__tab-text {
+                    .third-panel__tab-text, #nav_tooltip {
                         font-size: 16px;
                     }
+                }
+                @media (width <= 910px){
+                  .tab{
+                  font-size: 14px;}
+                }
+
+                @media (width >= ${1536 / win_scale - 2 - (window.outerWidth - window.innerWidth)}px){
+                  .third-panel__tab-text, #nav_tooltip, .navbar-top-panel, #navbar > div.panels__panel.second-panel > div > p,
+                  body > navbar-elem > div.navbar-top-panel > a{
+                    font-size: calc(${font_size / 1536} * 100vw);
+                    padding-top: 0.01vw;
+                  }
+                  
+                  .third-panel__tab{
+                    margin-top: 0.01vw;
+                    }
+                    
+                  .third-panel__tab-text{
+                    padding-top: 0;
+                    margin-top: 0.01vw;
+                    }
+                      
+                  .other-tabs .third-panel__tab{
+                    margin-top: 0;
+                  }
+
+                  .other-tabs p{
+                    margin-top: 0;
+                    padding-top: 0;
+                  }
+
+                  .third-panel__tab-icon{
+                    font-size: 1.5625vw !important;
+                    height: 1.5625vw !important;
+                    padding-top: 0;
+                  }
+
+                  .second-panel__tab{
+                    height: 3.125vw;
+                  }
+
+                  .navbar-top-panel{
+                    height: 2.08333vw;
+                  }
+
+                  .third-panel{
+                    padding-top: 1.30208333vw;
+                    padding-bottom: 1.041666vw;
+                    row-gap: 1.041666vw;
+                  }
+
+                  .navbar-top__link > img {
+                    width: calc(${font_size / 1536} * 100vw);
+                    height: calc(${font_size / 1536} * 100vw);
+                  }
+
+                  #navbar > div.third-panel.journals.panels__panel {
+                    padding-left: 1.041666vw;
+                  }
+
+                  .third-panel__tab.more .icon{
+                    padding-left: 0.260416667vw !important;
+                  }
+                  .third-panel__tab{
+                    padding-inline: 0.208333vw;
+                  }
+
+                  #navbar > div.third-panel.journals.panels__panel > div > span, #navbar > div.third-panel.journals.panels__panel > div.other-tabs.other-tabs_active > div > span {
+                    margin-bottom: 0.3125vw;
+                  } 
+                  .third-panel.journals.panels__panel{
+                    padding-inline: 0 ! important;
+                  }
+
+                  .navbar-top-panel{
+                    padding-right: 2.045vw !important;
+                  }
+
                 }
             </style>
         `;
     this.innerHTML = /*html*/ `
         ${STYLE}
             <div class="navbar-top-panel">
-                <a href="#" class="navbar-top__link"><svg width="20" height="33" viewBox="0 0 32 33" class="svg-red" fill="red" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.9997 3.09912H23.9997C25.4663 3.09912 26.6663 4.29912 26.6663 5.76579V27.0991C26.6663 28.5658 25.4663 29.7658 23.9997 29.7658H11.9997C10.533 29.7658 9.33301 28.5658 9.33301 27.0991V24.4325H11.9997V27.0991H23.9997V5.76579H11.9997V8.43245H9.33301V5.76579C9.33301 4.29912 10.533 3.09912 11.9997 3.09912Z" fill="white"/>
-<path d="M13.4533 21.2194L15.3333 23.0994L22 16.4328L15.3333 9.76611L13.4533 11.6461L16.8933 15.0994H4V17.7661H16.8933L13.4533 21.2194Z" fill="white"/>
-</svg>
- Войти</a>
+                <a href="#" class="navbar-top__link">
+                <img src="assets/icons/fixed_icons/login.svg" width="20px" alt="">
+                <img src="assets/icons/fixed_icons/login-red.svg" width="20px" alt="">
+                 Войти</a>
             </div>
             <div class="mobile-control__menu-button">
                 <p>Меню</p>
@@ -341,8 +427,8 @@ class Navbar extends HTMLElement {
                     <div class="tab second-panel__tab" id="emails_tab">
                         <p>Email ящики</p>
                     </div>
-                    <div class="tab second-panel__tab">
-                        <p>Ключи.Пароли</p>
+                    <div class="tab second-panel__tab" style="word-break: normal !important">
+                        <p>Ключи Пароли</p>
                     </div>
                     <div class="tab second-panel__tab">
                         <p>Разное</p>
@@ -350,118 +436,68 @@ class Navbar extends HTMLElement {
                 </div>
                 <div class="third-panel journals panels__panel">
                     ${(() => {
-        let markup = "";
-        for (let index = 0; index < THRID_PANEL_TABS.slice(0, 8).length; index++) {
-          const [tabName, icon, content, id] = THRID_PANEL_TABS[index];
-          if (!tabName || !icon) continue; // Проверяем, что данные существуют
-
-          markup += this.THIRD_PANEL_TAB_TEMPLATE(
-            tabName,
-            icon,
-            content,
-            { id, tabNameClasses: tabName === "вакансии объед" ? "no-white" : "" }
-          );
-
-          setTimeout(() => {
-            // console.log(document.querySelector(`.tab${id}`).lastElementChild.offsetWidth);
-            // console.log(document.querySelector(`.tab${id}`).lastElementChild.scrollWidth);
-            if (document.querySelector(`.tab${id}`).lastElementChild.offsetWidth < document.querySelector(`.tab${id}`).lastElementChild.scrollWidth) {
-              console.log(true);
-
-
-              // tippy(`.tab${id}`, {
-              //   content: content,
-              //   placement: 'bottom',
-              //   arrow: false,
-              //   theme: 'customTip',
-              //   maxWidth: 'none'
-              // });
-            } else {
-              console.log(false);
-            }
-          }, 500);
-
-        }
-
-
-        return markup;
-      })()}
+                      let markup = "";
+                      for (const tab of this.THRID_PANEL_TABS.slice(0, 8)) {
+                        if (tab[0] == "вакансии объед") {
+                          markup += this.THIRD_PANEL_TAB_TEMPLATE(
+                            tab[0],
+                            tab[1],
+                            { tabNameClasses: "no-white" }
+                          );
+                          continue;
+                        }
+                        markup += this.THIRD_PANEL_TAB_TEMPLATE(tab[0], tab[1]);
+                      }
+                      return markup;
+                    })()}
                     <div class="third-panel__tab more">
-                        <p class="third-panel__tab-text">
+                        <p class="third-panel__tab-text no-tt">
                             <span style="width: 100%; text-align: center; position: static;">Все 21</span>
                             <br> журнала <span class="icon reversed" style="padding-left: 5px;"></span></p>
                     </div>
                     <div class="other-tabs">
                         ${(() => {
-        let markup = "";
-        for (const [
-          index,
-          tab,
-        ] of THRID_PANEL_TABS.slice(8).entries()) {
-          if (index == 8) {
-            markup += `<div class="third-panel__tab more"></div>`;
-          }
-          const [tabName, icon, content, id] = THRID_PANEL_TABS[index + 8];
-          markup += this.THIRD_PANEL_TAB_TEMPLATE(
-            tabName,
-            icon,
-            content,
-            { id, tabNameClasses: tabName === "вакансии объед" ? "no-white" : "" }
-          );
-
-          // setTimeout(() => {
-          //   // console.log(document.querySelector(`.tab${id}`).lastElementChild);
-          //   // console.log(document.querySelector(`.tab${id}`).lastElementChild);
-
-          //   if (document.querySelector(`.tab${id}`).lastElementChild.offsetWidth < document.querySelector(`.tab${id}`).lastElementChild.scrollWidth) {
-          //     tippy(`.tab${id}`, {
-          //       content: content,
-          //       placement: 'bottom',
-          //       arrow: false,
-          //       theme: 'customTip',
-          //       maxWidth: 'none'
-          //     });
-          //   }
-          // }, 500);
-
-        }
-        return markup;
-      })()}
+                          let markup = "";
+                          for (const [
+                            index,
+                            tab,
+                          ] of this.THRID_PANEL_TABS.slice(8).entries()) {
+                            if (index == 8) {
+                              markup += `<div class="third-panel__tab more"></div>`;
+                            }
+                            markup += this.THIRD_PANEL_TAB_TEMPLATE(
+                              tab[0],
+                              tab[1]
+                            );
+                          }
+                          return markup;
+                        })()}
                     </div>
                 </div>
-
-
-         
-  
-
             </div>
-
-         
+            <span class="brad-crumb__item__text_">Журнал: СОКРАЩЁННЫЕ ЮРИДИЧЕСКИЕ ФОРМЫ</div>
         `;
   }
-
-
-
 
   setup() {
     const thirdPanel = this.querySelector(".third-panel")
     this.querySelectorAll(".second-panel__tab").forEach((el) => {
       this.querySelectorAll(".third-panel__tab").forEach((el) => {
         el.classList.remove("third-panel__tab_active");
-        if (el.innerHTML.includes('ПОИСК')) {
+        if (el.innerHTML.includes('Сокращённые юридические формы')) {
           el.classList.add('third-panel__tab_active')
         }
       })
       el.addEventListener("click", () => {
-        if (el.getAttribute("id") == "journals_tab") {
+        if(el.getAttribute("id") == "journals_tab"){
           thirdPanel.setAttribute('style', 'display:grid;')
           this.querySelectorAll(".third-panel__tab").forEach((el) => {
             el.classList.remove("third-panel__tab_active");
-            if (el.innerHTML.includes('СОКРАЩЁННЫЕ ЮРИДИЧЕСКИЕ ФОРМЫ')) {
+            if(el.innerHTML.includes('Сокращённые юридические формы')){
               el.classList.add('third-panel__tab_active')
             }
           });
-        } else {
+        }else{
           thirdPanel.setAttribute('style', 'display:none;')
         }
         el.classList.add("tab_active");
@@ -481,7 +517,6 @@ class Navbar extends HTMLElement {
 
     const moreTab = this.querySelector(".third-panel__tab.more");
     moreTab.onclick = () => {
-
       const otherTabs = this.querySelector(".other-tabs");
       if (otherTabs.classList.contains("other-tabs_active")) {
         otherTabs.classList.remove("other-tabs_active");
@@ -497,25 +532,20 @@ class Navbar extends HTMLElement {
           .classList.remove("reversed");
       }
 
-
-
-
-      detectedOverflow()
+      const menu = document.querySelector("#navbar");
+      if (menu.classList.contains("mobile-menu-wrapper_active")) {
+        menu.classList.remove("mobile-menu-wrapper_active");
+      } else {
+        menu.classList.add("mobile-menu-wrapper_active");
+      }
     };
 
     this.querySelectorAll(".third-panel__tab:not(.more)").forEach(
       (el, index) => {
         el.onclick = (event) => {
-          page2 = findTab(el.querySelector('p').innerHTML.toLowerCase())
-          page = el.querySelector('p').innerHTML.toLowerCase()
-          document.title = page.toUpperCase()
-          checkPagePC()
           this.querySelectorAll(".third-panel__tab").forEach((el) => {
-
-
             el.classList.remove("third-panel__tab_active");
           });
-
           el.classList.add("third-panel__tab_active");
         };
         // if (index == 1) {
@@ -535,104 +565,27 @@ class Navbar extends HTMLElement {
       const menu = document.querySelector("#navbar");
       if (window.innerWidth <= 640) {
         menu.classList.remove("mobile-menu-wrapper_active");
-      } else if (window.innerWidth >= 880) {
-        menu.classList.add("mobile-menu-wrapper_active");
-      }
+        const bradCrumbs = document.querySelector(".brad-crumbs");
+        bradCrumbs.classList.add("brad_crumbs_active");
+      } else {
+        const moreTab = document.querySelector(".third-panel__tab.more");
+        const otherTabs = document.querySelector(".other-tabs");
+        if (!menu.classList.contains('mobile-menu-wrapper_active')) {
+          otherTabs.classList.remove("other-tabs_active");
+          moreTab
+            .querySelector("p")
+            .querySelector("span.icon")
+            .classList.add("reversed");
+        } else {
+          otherTabs.classList.add("other-tabs_active");
+          moreTab
+            .querySelector("p")
+            .querySelector("span.icon")
+            .classList.remove("reversed");
+        }
+    }
     });
   }
 }
 
 customElements.define("navbar-elem", Navbar);
-
-
-
-
-
-function removeWhitespace(text) {
-  return text.replace(/\s+/g, '');
-}
-
-
-function checkPagePC() {
-  // const searchMenu = document.querySelector('.search-menu')
-  const bt = document.querySelector('.big-title')
-  const btMB = document.querySelector('.brad-crumb__item__text')
-  const btPC = document.querySelector('.big-title-pc')
-
-  bt.innerHTML = 'Журнал: ' + page2.toUpperCase()
-  btMB.innerHTML = 'Журнал: ' + page2.toUpperCase()
-  btPC.innerHTML = page2.toUpperCase()
-  // if (page2 == 'поиск') {
-  //   searchMenu.style.display = 'block'
-  // } else {
-  //   searchMenu.style.display = 'none'
-  // }
-}
-
-function isEllipsisActive(e) {
-  console.log(e.offsetWidth < e.scrollWidth);
-
-  return (e.offsetWidth < e.scrollWidth);
-}
-
-
-
-function detectedOverflow() {
-  for (let index = 0; index < THRID_PANEL_TABS.length; index++) {
-    const [tabName, icon, content, id, kvota] = THRID_PANEL_TABS[index];
-    if (!tabName || !icon) continue; // Проверяем, что данные существуют
-
-    const tabSelector = `.tab${id}`;
-    const tabElement = document.querySelector(tabSelector);
-
-    if (tabElement) {
-      const lastChild = tabElement.lastElementChild;
-      const offW = lastChild.offsetWidth;
-      const scrollW = lastChild.scrollWidth;
-
-      // Проверяем, существует ли уже Tippy-инстанция
-      if (tabElement._tippy) {
-        tabElement._tippy.destroy(); // Уничтожаем существующую Tippy-инстанцию
-      }
-
-      if (offW < scrollW || kvota) {
-        document.querySelector(tabSelector).lastElementChild.style.textAlign = 'left';
-        tippy(tabSelector, {
-          content: content,
-          placement: 'bottom',
-          arrow: false,
-          theme: 'customTip',
-          maxWidth: 'none'
-        });
-      }
-    }
-  }
-}
-
-
-window.onresize = () => {
-  detectedOverflow()
-}
-
-
-setTimeout(() => {
-  detectedOverflow();
-}, 500);
-
-
-function findTab(text) {
-  for (let k = 0; k < THRID_PANEL_TABS.length; k++) {
-    const item = THRID_PANEL_TABS[k];
-    // Проверяем, является ли элемент строкой
-    let inddex = item.findIndex(e =>
-      typeof e === 'string' && e.toLowerCase() === text.toLowerCase()
-    );
-
-    // Если совпадение найдено, возвращаем индекс
-    if (inddex !== -1) {
-      return THRID_PANEL_TABS[k][inddex+2];
-    }
-  }
-  // Если совпадение не найдено, возвращаем -1
-  return 'Undefined';
-}

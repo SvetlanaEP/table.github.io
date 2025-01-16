@@ -10,36 +10,38 @@ class MobileControlMini extends HTMLElement {
   }
 
   THRID_PANEL_TABS = [
-    ["объявления", "", ""],
-    ["вакансии", "", ""],
-    ["вакансии объед", "", ""],
-    ["соискатели", "", ""],
-    ["отклики", "", ""],
-    ["фио", "", ""],
-    ["Адреса", "", ""],
-    ["Компании", "", ""],
-    ["Учебные заведения", "", ""],
-    ["Сокр.Ю.Ф.", "", ""],
-    ["Альтернативные", "", "Альтернативные учебные заведения"],
-    ["Филиалы", "", ""],
+    ["объявления", ""],
+    ["вакансии", ""],
+    ["вакансии объед", ""],
+    ["соискатели", ""],
+    ["отклики", ""],
+    ["фио", ""],
+    ["Адреса", ""],
+    ["Компании", ""],
+    ["Учебные заведения", ""],
+    ["Сокр.Ю.Ф.", ""],
+    ["Альтернативные", ""],
+    ["Филиалы", ""],
     // ["Квалификации", ""],
-    ["ПОИСК", "", ""],
-    ["Квалификации Специальности", "", ""],
-    ["Телефонные коды", "", ""],
-    ["Администраторы", "", ""],
-    ["email рассылка", "", ""],
-    ["КАК БЫЛО КАК НАДО", "", ""],
-    ["ПРЕФИКСЫ СЧЕТОВ", "", ""],
-    ["БАНКИ", "", ""],
-    ["РУБРИКАТОР", "", ""],
+    ["ПОИСК", ""],
+    ["Квалификации Специальности", ""],
+    ["Телефонные коды", ""],
+    ["Администраторы", ""],
+    ["email рассылка", ""],
+    ["КАК БЫЛО КАК НАДО", ""],
+    ["ПРЕФИКСЫ СЧЕТОВ", ""],
+    ["БАНКИ", ""],
+    ["РУБРИКАТОР", ""],
   ];
-  TEMPLATE_TAB = (tabName, icon, fullName, { classes } = {}) => {
+  TEMPLATE_TAB = (tabName, icon, {
+    classes
+  } = {}) => {
     return /*html*/ `
             <div class="mobile-control-wrapper__grid-nav ${classes}">
                 <div class="mobile-control-wrapper__icon-wrapper ">
                     <span class="icon too-big-icon">${icon}</span>
                 </div>
-                <div class="mobile-control__tab-name" data-full_name="${fullName}">
+                <div class="mobile-control__tab-name">
                     <p>${tabName}</p>
                 </div>
             </div>
@@ -66,7 +68,6 @@ class MobileControlMini extends HTMLElement {
                 }
 
                 .mobile-menu-mini-wrapper {
-                    z-index: 20010;
                     position: fixed;
                     bottom: 0;
                     width: 100%;
@@ -129,20 +130,20 @@ class MobileControlMini extends HTMLElement {
                     </div>
                     <div class="mobile-control-wrapper__grid-nav-wrapper">
                         ${(() => {
-      let markup = ``;
-      for (const [
-        index,
-        tab,
-      ] of this.THRID_PANEL_TABS.entries()) {
-        markup += this.TEMPLATE_TAB(tab[0], tab[1], tab[2], {
-          classes:
-              index == this.active
-                  ? "mobile-control-wrapper__grid-nav_active"
-                  : "",
-        });
-      }
-      return markup;
-    })()}
+                          let markup = ``;
+                          for (const [
+                            index,
+                            tab,
+                          ] of this.THRID_PANEL_TABS.entries()) {
+                            markup += this.TEMPLATE_TAB(tab[0], tab[1], {
+                              classes:
+                                index == this.active
+                                  ? "mobile-control-wrapper__grid-nav_active"
+                                  : "",
+                            });
+                          }
+                          return markup;
+                        })()}
                     </div>
                 </div>
 
@@ -208,7 +209,7 @@ class MobileControlMini extends HTMLElement {
     });
     const mobileMenu = document.querySelector(".mobile-menu-mini");
     const mobileMenuWrapper = document.querySelector(
-        ".mobile-menu-mini-wrapper"
+      ".mobile-menu-mini-wrapper"
     );
     const mainContainer = document.querySelector(".main-container");
     mobileMenuWrapper.classList.add("mobile-menu-mini-wrapper_active");
@@ -219,7 +220,7 @@ class MobileControlMini extends HTMLElement {
   closeMenu() {
     const mobileMenu = document.querySelector(".mobile-menu-mini");
     const mobileMenuWrapper = document.querySelector(
-        ".mobile-menu-mini-wrapper"
+      ".mobile-menu-mini-wrapper"
     );
     const mainContainer = document.querySelector(".main-container");
     mobileMenuWrapper.classList.remove("mobile-menu-mini-wrapper_active");
@@ -233,14 +234,14 @@ class MobileControlMini extends HTMLElement {
 
   openSecondRow() {
     const secondRow = document.querySelector(
-        ".mobile-control-wrapper__row.second"
+      ".mobile-control-wrapper__row.second"
     );
     secondRow.style.display = "flex";
   }
 
   closeSecondRow() {
     const secondRow = document.querySelector(
-        ".mobile-control-wrapper__row.second"
+      ".mobile-control-wrapper__row.second"
     );
     secondRow.style.display = "none";
   }
@@ -260,22 +261,22 @@ class MobileControlMini extends HTMLElement {
     })
 
     document
-        .querySelectorAll(".mobile-control-wrapper__grid-nav")
-        .forEach((nav) => {
-          nav.onclick = () => {
-            this.closeMenu();
-          };
-        });
+      .querySelectorAll(".mobile-control-wrapper__grid-nav")
+      .forEach((nav) => {
+        nav.onclick = () => {
+          this.closeMenu();
+        };
+      });
 
     const controls = document.querySelectorAll(
-        ".mobile-control-wrapper__grid-control-wrapper:not(.more-button)"
+      ".mobile-control-wrapper__grid-control-wrapper:not(.more-button)"
     );
     const bradCrumbs = document.querySelector(".brad-crumbs");
     const bradCrumbsItemTextControl = document.querySelector(
-        ".brad-crumb__item__text"
+      ".brad-crumb__item__text"
     );
     const bradCrumbsItemButton = document.querySelector(
-        ".brad-crumb__item__button"
+      ".brad-crumb__item__button"
     );
     const tabs = document.querySelectorAll(".mobile-control-wrapper__grid-nav");
 
@@ -290,11 +291,11 @@ class MobileControlMini extends HTMLElement {
       control.addEventListener("click", () => {
         controls.forEach((control) => {
           control.classList.remove(
-              "mobile-control-wrapper__grid-control-wrapper_active"
+            "mobile-control-wrapper__grid-control-wrapper_active"
           );
         });
         control.classList.add(
-            "mobile-control-wrapper__grid-control-wrapper_active"
+          "mobile-control-wrapper__grid-control-wrapper_active"
         );
         bradCrumbs.classList.add("brad_crumbs_active");
         bradCrumbsItemTextControl.innerHTML = control.querySelector("p").innerText;
@@ -306,10 +307,9 @@ class MobileControlMini extends HTMLElement {
             });
             tab.classList.add("mobile-control-wrapper__grid-nav_active");
             bradCrumbs.classList.add("brad_crumbs_active");
-
-         //   let bradCrumbsText = tab.querySelector(".mobile-control__tab-name").dataset.full_name ?? tab.querySelector(".mobile-control__tab-name").innerText;
-
-          //  bradCrumbsItemTextControl.innerHTML = control.querySelector("p").innerText + ": " + capitalizeFirstLetter(bradCrumbsText);
+            bradCrumbsItemTextControl.innerHTML = control.querySelector("p").innerText + ": " + capitalizeFirstLetter(tab.querySelector(
+              ".mobile-control__tab-name"
+            ).innerText);
             // localStorage.setItem('mob_active_item', tab.querySelector(
             //   ".mobile-control__tab-name"
             // ).textContent);
@@ -327,7 +327,7 @@ class MobileControlMini extends HTMLElement {
     }
 
     const more = document.querySelector(
-        ".mobile-control-wrapper__grid-control-wrapper.more-button"
+      ".mobile-control-wrapper__grid-control-wrapper.more-button"
     );
     more.onclick = () => {
       if (more.querySelector("p").textContent == "Еще") {
@@ -351,16 +351,18 @@ function check_and_load_mobile(){
     const mobile_control = document.querySelectorAll('.mobile-control-wrapper__grid-nav')
     journals.click()
     mobile_control.forEach((item) => {
+      // console.log(`checking... ${item.querySelector('p').textContent} vs ${localStorage.getItem('active_item') || 'КВАЛИФИКАЦИИ СПЕЦИАЛЬНОСТИ'}`)
       const mobile_control__tab = item.querySelector('.mobile-control__tab-name');
       const text = mobile_control__tab.querySelector('p');
-      if (['АЛЬТЕРНАТИВНЫЕ УЧЕБНЫЕ ЗАВЕДЕНИЯ', 'АЛЬТЕРНАТИВНЫЕ'].includes(text.textContent.toUpperCase())) {
+      if (text.textContent.toUpperCase() == 'КВАЛИФИКАЦИИ СПЕЦИАЛЬНОСТИ') {
+        // console.log('yes')
         item.click()
         localStorage.removeItem('pc_active_item')
       }
     })
   } else {
     if(!localStorage.getItem('mob_active_item')) return;
-    const fv = localStorage.getItem('mob_active_item').toUpperCase() || 'АЛЬТЕРНАТИВНЫЕ УЧЕБНЫЕ ЗАВЕДЕНИЯ';
+    const fv = localStorage.getItem('mob_active_item').toUpperCase() || 'КВАЛИФИКАЦИИ СПЕЦИАЛЬНОСТИ';
     document.querySelectorAll('.third-panel__tab').forEach(el => {
       if(!el.querySelector('p')) return
       if(el.querySelector('p').textContent.toUpperCase() == fv) {

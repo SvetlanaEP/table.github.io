@@ -1107,7 +1107,7 @@ function showSuggestions(columnIndex, inputIndex) {
         } else {
             closeSuggestions()
         }
-        selectOptionLi.style.fontSize = 'calc(0.0140625* 100vw)';
+        selectOptionLi.style.fontSize = '12px';
         selectOptionLi.style.display = 'block';
         selectOptionLi.style.visibility = 'hidden';
         suggestionsList.appendChild(selectOptionLi);
@@ -1135,7 +1135,7 @@ function showSuggestions(columnIndex, inputIndex) {
                             closeSuggestions();
 
                             // Вызов функций для изменения высоты элементов
-                            autoResizeTextarea(input, (input.scrollHeight/window.innerHeight)*100);
+                            autoResizeTextarea(input, input.scrollHeight);
                             adjustTableRowAndLabelHeight(input);
                         };
                     }
@@ -1151,7 +1151,7 @@ function showSuggestions(columnIndex, inputIndex) {
         document.getElementById('overlay').style.display = 'block';
         document.body.classList.add('modal-open');
         parentCell.style.zIndex = '20';
-        parentCell.querySelector('label').style.border = '0.2vh solid #00B0D9';
+        parentCell.querySelector('label').style.border = '2px solid #00B0D9';
 
         // Добавляем обработчик клика на документ
         document.addEventListener('click', handleOutsideClick);
@@ -1162,15 +1162,12 @@ function showSuggestions(columnIndex, inputIndex) {
 
     // Функция для прокрутки страницы вверх, если подсказки не умещаются
     function adjustScrollForSuggestions() {
-
         const suggestionsRect = suggestionsList.getBoundingClientRect();
         const inputRect = input.getBoundingClientRect();
         const spaceBelowInput = window.innerHeight - inputRect.bottom;
 
         // Если подсказки не помещаются полностью в видимую часть
         if (suggestionsRect.height > spaceBelowInput) {
-            document.querySelector('.body-container').style.overflowY = 'none';
-
             // Рассчитываем, сколько нужно прокрутить, чтобы верхняя часть инпута была видна в верхней части окна
             const scrollAmount = inputRect.top - 10; // Немного отступаем от верхней части окна (10px)
 
@@ -1179,7 +1176,6 @@ function showSuggestions(columnIndex, inputIndex) {
                 top: scrollAmount, // Прокрутить на это количество пикселей
                 behavior: 'smooth' // Плавная прокрутка
             });
-            document.querySelector('.body-container').style.overflowY  = 'auto';
         }
     }
 
@@ -1246,7 +1242,7 @@ console.log(tableClearIcon[i].closest('.popup-form__input-wrapper').querySelecto
         tableClearIcon[i].style.display = 'none';
         tableSearchIcon[i].style.display = 'block'
         tableInput[i].classList.add('search-input--focus')
-        tableInput[i].closest('label').style.border = '0.2vh solid #00B0D9';
+        tableInput[i].closest('label').style.border = '2px solid #00B0D9';
         tableInput[i].focus();
         document.querySelectorAll('.suggestions-list')[i].style.display = 'none';
 
@@ -1432,7 +1428,7 @@ document.addEventListener('DOMContentLoaded', function() {
     tableData.addEventListener('click', function (evt) {
         const deleteButton = evt.target.closest('.data-item__button--del')
         const editButton = evt.target.closest('.data-item__button--edit')
-
+console.log(deleteButton)
         if (editButton) {
             currentRow = editButton.closest('tr');
             idCurrentRow = parseInt(currentRow.dataset.id, 10);
@@ -1886,8 +1882,7 @@ let duplicate;
 const textareaAll = document.querySelectorAll('.popup-form__input:not(.custom-file-upload)');
 textareaAll.forEach(textarea => {
     // Сохранение начальной (минимальной) высоты при загрузке страницы
-    const initialHeight = (textarea.scrollHeight / window.innerHeight)*100;
-
+    const initialHeight = textarea.scrollHeight;
 
     const textareaDel = textarea.closest('label').querySelector('.clear-icon__del')
     autoResizeTextarea(textarea, initialHeight)
@@ -1895,7 +1890,7 @@ textareaAll.forEach(textarea => {
     textareaDel.addEventListener('click', () => {
         textarea.ariaValueMax = ''
         textarea.focus()
-        textarea.style.height = `${initialHeight}vh`;
+        textarea.style.height = `${initialHeight}px`;
 
         if (textareaDel.closest('section').classList.contains('popup-form--data')) {
             textareaDel.closest('section').querySelector('.popup-form__save-button').disabled = true;
@@ -1919,8 +1914,7 @@ const textareaSearchAll = document.querySelectorAll('.search-input');
 
 textareaSearchAll.forEach(textareaSearch => {
     // Сохраняем начальную (минимальную) высоту при загрузке страницы
-    const initialHeight = (textareaSearch.scrollHeight / window.innerHeight)*100;
-
+    const initialHeight = textareaSearch.scrollHeight;
 
     const textareaSearchDel = textareaSearch.closest('label').querySelector('.search-icons__del');
 
@@ -1929,7 +1923,7 @@ textareaSearchAll.forEach(textareaSearch => {
 
     textareaSearchDel.addEventListener('click', () => {
         textareaSearch.value = '';
-        textareaSearch.style.height = `${initialHeight}vh`;
+        textareaSearch.style.height = `${initialHeight}px`;
         adjustTableRowAndLabelHeight(textareaSearch);
 
         // Очищаем значения всех элементов с иконкой удаления
@@ -1954,12 +1948,12 @@ textareaSearchAll.forEach(textareaSearch => {
 // Функция для автоматического изменения высоты textarea
 function autoResizeTextarea(item, initialHeight) {
     // Сбрасываем высоту перед расчетом новой высоты
-    item.style.height = `${initialHeight}vh`;
+    item.style.height = `${initialHeight}px`;
 
     if (item.value.trim() === '') {
-        item.style.height = `${initialHeight}vh`;
+        item.style.height = `${initialHeight}px`;
     } else {
-        item.style.height = `${(item.scrollHeight/window.innerHeight)*100}vh`;
+        item.style.height = `${item.scrollHeight}px`;
     }
 }
 
@@ -1968,9 +1962,7 @@ function adjustTableRowAndLabelHeight(textarea) {
     const row = textarea.closest('tr');
     const label = textarea.closest('label');
 
-    const newHeight = `${(textarea.scrollHeight/window.innerHeight)*100}vh`;
-
-    console.log(newHeight)
+    const newHeight = `${textarea.scrollHeight}px`;
 
     // Изменяем высоту строки таблицы
 

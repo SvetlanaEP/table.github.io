@@ -1104,10 +1104,10 @@ function showSuggestions(columnIndex, inputIndex) {
         const selectOptionLi = document.createElement('li');
         if (uniqueSuggestions.length > 0) {
             selectOptionLi.textContent = 'Выберите вариант или продолжите ввод'
+            selectOptionLi.style.fontSize = 'calc(0.0090625*100vw)'
         } else {
             closeSuggestions()
         }
-        selectOptionLi.style.fontSize = 'calc(0.0140625* 100vw)';
         selectOptionLi.style.display = 'block';
         selectOptionLi.style.visibility = 'hidden';
         suggestionsList.appendChild(selectOptionLi);

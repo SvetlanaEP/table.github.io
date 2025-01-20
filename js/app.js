@@ -262,28 +262,6 @@ customSelectItems.forEach(item => {
         document.body.classList.remove('modal-open');
     });
 });
-/*
-// Закрытие выпадающего списка при клике вне его
-document.addEventListener('click', (e) => {
-
-    if (customSelectButton.parentElement.classList.contains('open')) {
-        if (!customSelectButton.contains(e.target)) {
-            customSelectButton.parentElement.classList.remove('open');
-            titleOne.classList.toggle('visually-hidden')
-            titleTwo.classList.toggle('visually-hidden')
-            customSelectButton.parentElement.style.zIndex = '1';
-            arrowIconSelect.classList.toggle('select-icons__arrow--open')
-
-            if (customSelectButton.querySelector('.custom-select__selected-0').textContent === 'Тип организации') {
-                console.log(customSelectButton.querySelector('.custom-select__selected-0').textContent === 'Тип организации')
-                customSelectButton.querySelector('.custom-select-placeholder').style.display = 'none'
-            }
-
-            document.getElementById('overlay').style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }
-    }
-})*/
 
 // Функция для закрытия модальных окон
 function closeModals(evt) {

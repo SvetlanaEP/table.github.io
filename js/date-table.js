@@ -13,7 +13,7 @@ let dataList = [
     },
     {
         id: 3,
-        abbreviation: 'АНООf',
+        abbreviation: 'АНОО',
         name: 'АВТОНОМНАЯ НЕКОММЕРЧЕСКАЯ ОБЩЕОБРАЗОВАТЕЛЬНАЯ ОРГАНИЗАЦИЯ',
         isEducational: true
     },
@@ -1079,6 +1079,7 @@ function showSuggestions(columnIndex, inputIndex) {
 
     const filteredData = dataList.filter(row => {
         let textToCheck = columnIndex === 0 ? row.name.toLowerCase() : row.abbreviation.toLowerCase();
+
         return textToCheck.startsWith(filter);
     });
     if (filteredData.length === 0) {
@@ -1112,12 +1113,15 @@ function showSuggestions(columnIndex, inputIndex) {
         selectOptionLi.style.visibility = 'hidden';
         suggestionsList.appendChild(selectOptionLi);
 
+
         for (let i = 0; i < maxSuggestions; i++) {
             const tempLi = document.createElement('li');
             tempLi.style.display = 'block';
             tempLi.style.visibility = 'hidden';
-            tempLi.innerHTML = highlightMatchingText(uniqueSuggestions[i], filter);
+            suggestionItem = uniqueSuggestions[i].charAt(0).toUpperCase() + uniqueSuggestions[i].slice(1);
+            tempLi.innerHTML = highlightMatchingText(suggestionItem, filter);
             suggestionsList.appendChild(tempLi);
+
         }
 
         requestAnimationFrame(() => {
@@ -1238,8 +1242,6 @@ for (let i=0; i<tableInput.length; i++) {
 
 
     tableClearIcon[i].addEventListener('click', function() {
-
-console.log(tableClearIcon[i].closest('.popup-form__input-wrapper').querySelector('.search-input'))
 
         tableClearIcon[i].closest('.popup-form__input-wrapper').querySelector('.search-input').value = '';
 
@@ -1952,10 +1954,6 @@ function adjustTableRowAndLabelHeight(textarea) {
     const label = textarea.closest('label');
 
     const newHeight = `${(textarea.scrollHeight/window.innerHeight)*100}vh`;
-
-    console.log(newHeight)
-
-    // Изменяем высоту строки таблицы
 
 
     // Изменяем высоту лейбла

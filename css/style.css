@@ -1811,6 +1811,7 @@ flex-direction: column;
 
 .suggestions-list {
     position: absolute;
+    font-weight: normal;
     top: 9.5vh;
     color: #484848;
     display: none;
